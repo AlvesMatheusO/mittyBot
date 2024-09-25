@@ -1,18 +1,15 @@
 defmodule MittyBot do
-  @moduledoc """
-  Documentation for `MittyBot`.
-  """
 
-  @doc """
-  Hello world.
+  use Nostrum.Consumer
 
-  ## Examples
+  alias Nostrum.Api
 
-      iex> MittyBot.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
+    case msg.content do
+      "!hi" ->
+        Api.create_message(msg.channel_id, "Hello!")
+      _ ->
+        :ignore
+      end
   end
 end
