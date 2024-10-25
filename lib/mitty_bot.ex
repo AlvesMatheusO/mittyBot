@@ -3,6 +3,7 @@ defmodule MittyBot do
 
   alias Nostrum.Api
   alias MittyBot.Services.TmdbService
+  alias MittyBot.Services.QuoteApiService
 
   @spec handle_event(any()) ::
           :ignore
@@ -23,6 +24,9 @@ defmodule MittyBot do
 
       "!cine" ->
         handle_movies_in_theater(msg.channel_id)
+
+      "!quote" ->
+        handle_movies_quotes(msg.channel_id)
 
       _ ->
         :ignore
@@ -61,6 +65,18 @@ defmodule MittyBot do
         Api.create_message(channel_id, "Erro ao buscar filmes em cartaz :sob:")
     end
   end
+
+  defp handle_movies_quotes(channel_id) do
+    case QuoteApiService.quote_movie() do
+      {:ok, %{"Quotes" => [%{"quote" => quote, "author" => author}]}} ->
+        response = "#{quote} — #{author}"
+        Api.create_message(channel_id, response)
+
+      {:error, _} ->
+        Api.create_message(channel_id, "Erro ao buscar uma citação :sob:")
+    end
+  end
+
 
   defp format_movie([]), do: "Nenhum filme encontrado."
 

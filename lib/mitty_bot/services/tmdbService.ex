@@ -1,6 +1,7 @@
 defmodule MittyBot.Services.TmdbService do
   @moduledoc """
   Serviço para buscar informações na API do TMDb.
+  https://www.themoviedb.org/?language=pt-BR
   """
 
   @api_key "f7809065a7efebbcdb9e0cf29f8f2695"
@@ -62,6 +63,7 @@ defmodule MittyBot.Services.TmdbService do
     end
   end
 
+  @spec movies_on_theaters() :: {:error, :api_falhou | :falha_json} | {:ok, any()}
   def movies_on_theaters do
     url = "#{@base_url}/movie/now_playing?api_key=#{@api_key}&language=pt-BR&page=1&region=BR"
 
