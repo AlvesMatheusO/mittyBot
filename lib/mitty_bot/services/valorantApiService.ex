@@ -8,14 +8,13 @@ defmodule MittyBot.Services.ValorantApiServices do
 
   # Função para buscar informações de um jogador
   def search_player(nickname, tag) do
-      url = "#{@base_url}/v2/account/#{URI.encode(nickname)}/#{URI.encode(tag)}?api_key=#{@api_key}"
+      url = "#{@base_url}/v1/mmr-history/br/#{URI.encode(nickname)}/#{URI.encode(tag)}?api_key=#{@api_key}"
 
     options = [
       timeout: 10_000,
       recv_timeout: 10_000
     ]
 
-    IO.puts("Buscando jogador em URL: #{url}")
 
     case HTTPoison.get(url, [], options) do
       {:ok, %{status_code: 200, body: body}} ->
