@@ -8,11 +8,7 @@ defmodule MittyBot do
 
   @max_message_length 2000
 
-  @spec handle_event(any()) ::
-          :ignore
-          | :noop
-          | {:error, map()}
-          | {:ok, Nostrum.Struct.Message.t()}
+
 
   def handle_event({:MESSAGE_CREATE, msg, _ws_state}) do
     case msg.content do
@@ -65,12 +61,6 @@ defmodule MittyBot do
 
           {:error, :player_not_found} ->
             Api.create_message(channel_id, "Não consegui encontrar o jogador #{nickname} :sob:")
-
-          {:error, {:unexpected_status, status}} ->
-            Api.create_message(channel_id, "API retornou status inesperado: #{status} :sob:")
-
-          {:error, {:request_failed, reason}} ->
-            Api.create_message(channel_id, "Erro ao buscar informações: #{inspect(reason)}")
 
           {:error, _} ->
             Api.create_message(channel_id, "Erro ao processar dados do jogador #{nickname} :sob:")
